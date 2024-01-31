@@ -31,6 +31,8 @@ public class IntQueueTest {
 
     private IntQueue mQueue;
     private List<Integer> testList;
+    private List<Integer> testListLarge;
+    private List<Integer> testListDequeue;
 
     /**
      * Called before each test.
@@ -38,10 +40,12 @@ public class IntQueueTest {
     @Before
     public void setUp() {
         // comment/uncomment these lines to test each class
-        mQueue = new LinkedIntQueue();
-    //    mQueue = new ArrayIntQueue();
+    //    mQueue = new LinkedIntQueue();
+        mQueue = new ArrayIntQueue();
 
         testList = new ArrayList<>(List.of(1, 2, 3));
+        testListLarge = new ArrayList<>(List.of(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31));
+        testListDequeue = new ArrayList<>(List.of(312, 592, 182, 404, 255));
     }
 
     @Test
@@ -81,12 +85,45 @@ public class IntQueueTest {
 
     @Test
     public void testDequeue() {
-        for (int i = 0; i < 10; i++) {
-            mQueue.enqueue(i);
+        for (int i = 0; i < testListDequeue.size(); i++) {
+            mQueue.enqueue(testListDequeue.get(i));
         }
-        for (int i = 0; i < 10; i++) {
-            assertEquals(i, mQueue.dequeue().intValue());
+        for (int i = 0; i < testListDequeue.size(); i++) {
+            assertEquals(testListDequeue.get(i), mQueue.dequeue());
         }
+    }
+
+    @Test
+    public void testDequeueEmpty() {
+        assertEquals(null, mQueue.dequeue());
+    }
+
+    @Test
+    public void testRepeatedEnqueueDequeue() {
+        // This is an example unit test
+        for (int i = 0; i < testList.size(); i++) {
+            mQueue.enqueue(testList.get(i));
+            assertEquals(testList.get(0), mQueue.peek());
+            assertEquals(i + 1, mQueue.size());
+        }
+        for (int i = 0; i < testList.size(); i++) {
+            assertEquals(testList.get(i), mQueue.dequeue());
+        }
+        for (int i = 0; i < testListLarge.size(); i++) {
+            mQueue.enqueue(testListLarge.get(i));
+            assertEquals(testListLarge.get(0), mQueue.peek());
+            assertEquals(i + 1, mQueue.size());
+        }
+        for (int i = 0; i < testListLarge.size(); i++) {
+            assertEquals(testListLarge.get(i), mQueue.dequeue());
+        }
+    }
+
+    @Test
+    public void testClear() {
+        mQueue.enqueue(1);
+        mQueue.clear();
+        assertTrue(mQueue.isEmpty());
     }
 
     @Test
@@ -109,6 +146,5 @@ public class IntQueueTest {
             }
         }
     }
-
 
 }

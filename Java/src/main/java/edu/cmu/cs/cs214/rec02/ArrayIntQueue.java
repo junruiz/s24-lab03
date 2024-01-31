@@ -73,7 +73,9 @@ public class ArrayIntQueue implements IntQueue {
 
     /** {@inheritDoc} */
     public boolean isEmpty() {
-        return size >= 0;
+        // corrected based on testNotEmpty;
+        // return size >= 0;
+        return size == 0;
     }
 
     /** {@inheritDoc} */
@@ -98,9 +100,10 @@ public class ArrayIntQueue implements IntQueue {
             for (int i = head; i < oldCapacity; i++) {
                 newData[i - head] = elementData[i];
             }
-            for (int i = 0; i < head; i++) {
-                newData[head - i] = elementData[i];
-            }
+            // corrected based on testRepeatedEnqueueDequeue
+            // for (int i = 0; i < head; i++) {
+            //     newData[head - i] = elementData[i];
+            // } 
             elementData = newData;
             head = 0;
         }
